@@ -1,6 +1,7 @@
 const headerContainer = document.getElementById('entityHeader');
 const attributesContainer = document.getElementById('entityAttributes');
 const contentContainer = document.getElementById('entityContent');
+const breadcrumbContainer = document.querySelector('.breadcrumb');
 
 function getSlug() {
   const params = new URLSearchParams(window.location.search);
@@ -9,64 +10,105 @@ function getSlug() {
 
 async function loadEntity() {
   const slug = getSlug();
+  
   if (!slug) { 
     if(headerContainer) headerContainer.innerHTML = `<p>Entidade não especificada.</p>`; 
     return; 
   }
 
-  await loadEntitiesOnce();
-  const entity = EntityStore.bySlug.get(slug);
+  // Garante carregamento
+  if (window.loadEntitiesOnce) await window.loadEntitiesOnce();
+  const entity = window.EntityStore ? window.EntityStore.bySlug.get(slug) : null;
   
   if (!entity) { 
     if(headerContainer) headerContainer.innerHTML = `<p>Entidade não encontrada.</p>`; 
     return; 
   }
 
-  // Atualizar breadcrumb
-  const breadcrumbSpan = document.getElementById('breadcrumbCurrent'); // Se existir no HTML
-  if(breadcrumbSpan) breadcrumbSpan.textContent = entity.name;
-
+  // Renderização
+  renderBreadcrumb(entity);
   renderHeader(entity);
   renderAttributes(entity);
   renderEntityByType(entity);
+  
   initAccordion();
 }
 
+function renderBreadcrumb(e) {
+  if (!breadcrumbContainer) return;
+  
+  const typeLabel = window.EntityLabels ? (window.EntityLabels[e.type] || e.type) : e.type;
+  
+  // Tag principal para o breadcrumb
+  let tagHtml = '';
+  if (e.tags && e.tags.length > 0) {
+    const mainTag = e.tags[0]; 
+    tagHtml = `
+      <span class="breadcrumb__sep">/</span>
+      <a href="lista.html?type=${e.type}&tag=${encodeURIComponent(mainTag)}">${mainTag}</a>
+    `;
+  }
+
+  breadcrumbContainer.innerHTML = `
+    <a href="index.html">Home</a>
+    <span class="breadcrumb__sep">/</span>
+    <a href="lista.html?type=${e.type}">${typeLabel}</a>
+    ${tagHtml}
+    <span class="breadcrumb__sep">/</span>
+    <span class="breadcrumb__current">${e.name}</span>
+  `;
+}
+
 function renderHeader(e) {
+  // Tags
+  const tagsHtml = (e.tags || []).map(tag => 
+    `<a class="tag" href="lista.html?type=${e.type}&tag=${encodeURIComponent(tag)}">${tag}</a>`
+  ).join('');
+
+  // CORREÇÃO VISUAL: Envolvemos tudo numa div com a classe 'entity-header'
+  // Isso aplica a margem inferior e a borda que estavam faltando.
   headerContainer.innerHTML = `
-    <div class="entity-header-content">
-      ${e.image ? `<img src="${e.image}" alt="${e.name}" class="entity-image">` : ''}
-      <div>
-        <h1 class="entity-title">${e.name}</h1>
-        <p class="entity-shortdesc">${e.shortDesc || ''}</p>
-        <div class="entity-tags">
-          <a class="tag tag--type" href="lista.html?type=${e.type}">${window.EntityLabels[e.type] || e.type}</a>
-          ${e.tags.map(tag => `<a class="tag" href="lista.html?type=${e.type}&tag=${encodeURIComponent(tag)}">${tag}</a>`).join('')}
-        </div>
+    <div class="entity-header">
+      <h1 class="entity-title">${e.name}</h1>
+      <p class="entity-meta">${e.shortDesc || 'Sem descrição disponível.'}</p>
+      <div class="tag-container">
+        <a class="tag tag--type" href="lista.html?type=${e.type}">
+          ${window.EntityLabels ? window.EntityLabels[e.type] : e.type}
+        </a>
+        ${tagsHtml}
       </div>
     </div>
   `;
 }
 
 function renderAttributes(e) {
-  // Se attributes estiver vazio ou for objeto vazio
-  if (!e.attributes || Object.keys(e.attributes).length === 0) { 
+  // Suporta Array (novo formato) ou Objeto (formato legado)
+  if (!e.attributes || (Array.isArray(e.attributes) && e.attributes.length === 0) || Object.keys(e.attributes).length === 0) { 
     attributesContainer.innerHTML = ''; 
     return; 
   }
   
+  // Normaliza para array de objetos {label, value}
+  let attrs = [];
+  if (Array.isArray(e.attributes)) {
+    attrs = e.attributes;
+  } else {
+    attrs = Object.entries(e.attributes).map(([k,v]) => ({label: k, value: v}));
+  }
+
   attributesContainer.innerHTML = `
-    <div class="card info-grid">
-      ${Object.entries(e.attributes).map(([k,v]) => `
-        <div class="info-item">
-          <strong class="info-label">${k}</strong>
-          <span class="info-value">${v}</span>
+    <div class="info-grid">
+      ${attrs.map(attr => `
+        <div class="info-box">
+          <span class="info-label">${attr.label}</span>
+          <span class="info-value">${attr.value}</span>
         </div>
       `).join('')}
     </div>
   `;
 }
 
+// Renderização de conteúdo específico por tipo
 function renderEntityByType(e){
   switch(e.type){
     case 'npc': renderAccordionNpc(e); break;
@@ -77,43 +119,16 @@ function renderEntityByType(e){
   }
 }
 
-// Helpers de Renderização (Verifique se as propriedades existem)
-function renderAccordionNpc(n){
-  contentContainer.innerHTML = `
-    ${accordionItem('Localização', n.location)}
-    ${accordionList('Serviços', n.services)}
-    ${accordionItem('Diálogo', n.dialogue, true)}
-  `;
-}
-
-function renderAccordionItem(i){
-  contentContainer.innerHTML = `
-    ${accordionList('Requisitos', i.requirements)}
-    ${accordionList('Efeitos', i.effects)}
-  `;
-}
-
-function renderAccordionMonster(m){
-  contentContainer.innerHTML = `
-    ${accordionItem('Habitat', m.habitat)}
-    ${accordionList('Drops', m.drops)}
-    ${accordionList('Fraquezas', m.weaknesses)}
-  `;
-}
-
-function renderAccordionGuide(g){
-   // Exemplo simples para guias
-   contentContainer.innerHTML = `<div class="card"><p>Ver detalhes completos no guia externo ou descrição longa.</p></div>`;
-}
-
-// Funções utilitárias para gerar HTML do Accordion
-function accordionItem(title, content, isQuote = false) {
+// Helpers de Accordion
+function accordionItem(title, content) {
   if (!content) return '';
-  const body = isQuote ? `<blockquote>${content}</blockquote>` : `<p>${content}</p>`;
   return `
     <div class="accordion__item">
-      <div class="accordion__title">${title}</div>
-      <div class="accordion__content">${body}</div>
+      <button class="accordion__title">
+        ${title}
+        <span class="accordion__icon">+</span>
+      </button>
+      <div class="accordion__content"><p>${content}</p></div>
     </div>`;
 }
 
@@ -121,21 +136,45 @@ function accordionList(title, list) {
   if (!list || list.length === 0) return '';
   return `
     <div class="accordion__item">
-      <div class="accordion__title">${title}</div>
-      <div class="accordion__content"><ul>${list.map(i => `<li>${i}</li>`).join('')}</ul></div>
+      <button class="accordion__title">
+        ${title}
+        <span class="accordion__icon">+</span>
+      </button>
+      <div class="accordion__content">
+        <ul>${list.map(i => `<li>${i}</li>`).join('')}</ul>
+      </div>
     </div>`;
 }
 
-function initAccordion() {
-  document.querySelectorAll('.accordion__title').forEach(title => {
-    title.addEventListener('click', () => {
-      const item = title.parentElement;
-      const isOpen = item.classList.contains('is-open');
-      
-      // Fecha outros (opcional - estilo "Accordion")
-      document.querySelectorAll('.accordion__item').forEach(i => i.classList.remove('is-open'));
+function renderAccordionNpc(n){
+  contentContainer.innerHTML = `
+    ${accordionItem('Localização', n.location)}
+    ${accordionList('Serviços', n.services)}
+    ${accordionItem('Diálogo', n.dialogue ? `"${n.dialogue}"` : null)}
+  `;
+}
+function renderAccordionItem(i){
+  contentContainer.innerHTML = `
+    ${accordionList('Requisitos', i.requirements)}
+    ${accordionList('Efeitos', i.effects)}
+  `;
+}
+function renderAccordionMonster(m){
+  contentContainer.innerHTML = `
+    ${accordionItem('Habitat', m.habitat)}
+    ${accordionList('Drops', m.drops)}
+    ${accordionList('Fraquezas', m.weaknesses)}
+  `;
+}
+function renderAccordionGuide(g){
+   contentContainer.innerHTML = `<div class="card" style="padding:1rem"><p>Conteúdo do guia...</p></div>`;
+}
 
-      if (!isOpen) item.classList.add('is-open');
+function initAccordion() {
+  const titles = document.querySelectorAll('.accordion__title');
+  titles.forEach(title => {
+    title.addEventListener('click', () => {
+      title.parentElement.classList.toggle('is-open');
     });
   });
 }

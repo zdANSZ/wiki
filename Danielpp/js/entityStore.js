@@ -5,16 +5,22 @@ window.EntityStore = {
   byType: new Map()
 };
 
-// Funções auxiliares para limpar os dados "sujos" do JSON
+// Converte string "tag1, tag2" em array
 const parseList = (str) => typeof str === 'string' ? str.split(/[,;]/).map(s => s.trim()).filter(s => s) : (str || []);
+
+// CORREÇÃO: Retorna Array de objetos para permitir chaves duplicadas (ex: XP:11 e XP:12)
 const parseAttributes = (str) => {
-  if (typeof str !== 'string') return str || {};
-  const attrs = {};
-  str.split(';').forEach(pair => {
-    const [key, val] = pair.split(':');
-    if (key && val) attrs[key.trim()] = val.trim();
-  });
-  return attrs;
+  if (typeof str !== 'string') return [];
+  
+  return str.split(';').map(pair => {
+    const parts = pair.split(':');
+    if (parts.length >= 2) {
+      const key = parts[0].trim();
+      const val = parts.slice(1).join(':').trim(); // Garante que se o valor tiver ':', não quebre
+      if (key && val) return { label: key, value: val };
+    }
+    return null;
+  }).filter(item => item !== null);
 };
 
 async function loadEntitiesOnce() {
@@ -33,7 +39,7 @@ async function loadEntitiesOnce() {
       services: parseList(e.services),
       requirements: parseList(e.requirements),
       effects: parseList(e.effects),
-      attributes: parseAttributes(e.attributes)
+      attributes: parseAttributes(e.attributes) // Agora retorna array
     }));
 
     EntityStore.entities.forEach(e => {
@@ -45,7 +51,7 @@ async function loadEntitiesOnce() {
     EntityStore.loaded = true;
     return EntityStore.entities;
   } catch (error) {
-    console.error("Erro ao carregar entidades:", error);
+    console.error("Erro fatal ao carregar JSON:", error);
     return [];
   }
 }

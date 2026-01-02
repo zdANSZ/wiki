@@ -1,6 +1,6 @@
 <header class="header">
   <button class="header__btn header__btn--menu" aria-label="Abrir Menu">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -19,7 +19,10 @@
   </button>
 
   <nav class="drawer">
-    <div style="padding: 20px; border-bottom: 1px solid var(--color-border); font-weight:bold;">Menu</div>
+    <div class="drawer__header">
+      <span>Menu</span>
+      <button id="closeSidebar" style="font-size:1.5rem; padding:0 10px; background:none; border:none; color:#fff; cursor:pointer;">&times;</button>
+    </div>
     <ul class="drawer__menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="lista.html?type=class">Classes</a></li>
@@ -34,10 +37,10 @@
   <div class="overlay" hidden></div>
 </header>
 
-<div id="searchOverlay" class="search-overlay" hidden>
+<div id="searchOverlay" class="search-overlay" hidden style="display: none;">
   <div class="search-header">
-    <input type="text" id="globalSearchInput" placeholder="O que você procura?" autocomplete="off">
-    <button id="closeSearch" class="header__btn">✕</button>
+    <input type="text" id="globalSearchInput" placeholder="Digite para buscar..." autocomplete="off">
+    <button id="closeSearch" class="header__btn" style="width: auto; margin-left: 10px; font-size: 0.9rem;">Cancelar</button>
   </div>
   <div id="globalSearchResults" class="search-results-container"></div>
 </div>
