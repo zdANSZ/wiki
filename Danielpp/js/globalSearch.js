@@ -1,48 +1,73 @@
 window.initGlobalSearch = function() {
+  const triggerBtn = document.getElementById('searchTrigger');
+  const overlay = document.getElementById('searchOverlay');
+  const closeBtn = document.getElementById('closeSearch');
   const input = document.getElementById('globalSearchInput');
   const resultsBox = document.getElementById('globalSearchResults');
 
-  if (!input || !resultsBox) return;
+  if (!triggerBtn || !overlay || !input) return;
 
-  // Fechar busca ao clicar fora
-  document.addEventListener('click', (e) => {
-    if (!input.contains(e.target) && !resultsBox.contains(e.target)) {
-      resultsBox.style.display = 'none';
-    }
+  // Abrir Busca
+  triggerBtn.addEventListener('click', () => {
+    overlay.hidden = false;
+    input.value = ''; // Limpa busca anterior
+    resultsBox.innerHTML = '';
+    setTimeout(() => input.focus(), 100); // Foca no input após abrir
+    document.body.style.overflow = 'hidden'; // Impede rolagem da página de trás
   });
 
-  input.addEventListener('focus', () => {
-    if (input.value.length >= 2) resultsBox.style.display = 'block';
+  // Fechar Busca
+  const closeSearch = () => {
+    overlay.hidden = true;
+    document.body.style.overflow = ''; // Restaura rolagem
+  };
+
+  closeBtn.addEventListener('click', closeSearch);
+
+  // Fechar com ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !overlay.hidden) closeSearch();
   });
 
+  // Lógica de Pesquisa
   input.addEventListener('input', async (e) => {
     const query = e.target.value.toLowerCase();
     
     if (query.length < 2) {
       resultsBox.innerHTML = '';
-      resultsBox.style.display = 'none';
       return;
     }
 
-    await loadEntitiesOnce();
+    await loadEntitiesOnce(); // Garante que dados existem
     
     const results = EntityStore.entities.filter(e =>
       e.name.toLowerCase().includes(query) ||
       (e.tags && e.tags.some(t => t.toLowerCase().includes(query)))
-    ).slice(0, 8);
-
-    resultsBox.style.display = 'block';
+    );
 
     if (results.length === 0) {
-      resultsBox.innerHTML = `<div class="search-result"><span class="text-muted">Nenhum resultado</span></div>`;
+      resultsBox.innerHTML = `<p style="color: var(--color-text-muted); text-align:center; margin-top:20px;">Nenhum resultado encontrado.</p>`;
       return;
     }
 
+    // Renderização dos Resultados (Lista Vertical Limpa)
     resultsBox.innerHTML = results.map(e => `
-      <a href="entidade.html?slug=${e.slug}" class="search-result">
-        <strong>${e.name}</strong>
-        <span>${window.EntityLabels ? window.EntityLabels[e.type] : e.type}</span>
+      <a href="entidade.html?slug=${e.slug}" class="search-result-item">
+        <div class="search-result-info">
+          <span class="search-result-name">${e.name}</span>
+          <span class="search-result-type">${window.EntityLabels ? window.EntityLabels[e.type] : e.type}</span>
+        </div>
+        <div style="margin-left: auto; color: var(--color-text-muted);">
+           ➔
+        </div>
       </a>
     `).join('');
+    
+    // Adiciona evento de clique nos links para fechar o overlay e permitir a navegação
+    resultsBox.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeSearch();
+        });
+    });
   });
 };
