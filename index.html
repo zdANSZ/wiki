@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grind Hero Wiki</title>
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+
+  <div id="header"></div>
+
+  <main class="main">
+    
+    <section class="hero">
+      <h1 class="hero__title">Grind Hero Wiki</h1>
+      <p class="hero__subtitle">Sua base de conhecimento definitiva para dominar o jogo. Evolua, conquiste e descubra todos os segredos.</p>
+      <div class="hero__actions">
+        <button id="heroSearchTrigger" class="btn-primary">Pesquisar Algo</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Explorar Wiki</h2>
+      <div class="nav-grid">
+        <a href="lista.html?type=class" class="nav-card">
+          <span class="nav-card__icon">⚔️</span>
+          <span class="nav-card__title">Classes</span>
+          <span class="nav-card__desc">Guias de evolução e builds.</span>
+        </a>
+        <a href="lista.html?type=item" class="nav-card">
+          <span class="nav-card__icon">🛡️</span>
+          <span class="nav-card__title">Equipamentos</span>
+          <span class="nav-card__desc">Armas e armaduras lendárias.</span>
+        </a>
+        <a href="lista.html?type=monster" class="nav-card">
+          <span class="nav-card__icon">🐉</span>
+          <span class="nav-card__title">Monstros</span>
+          <span class="nav-card__desc">Bestiário, drops e fraquezas.</span>
+        </a>
+        <a href="lista.html?type=system" class="nav-card">
+          <span class="nav-card__icon">⚙️</span>
+          <span class="nav-card__title">Sistemas</span>
+          <span class="nav-card__desc">Crafting, mercado e mecânicas.</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Mundo de Jogo</h2>
+      <div class="feature-card">
+        <div class="feature-card__content">
+          <h3>Mapa de Tibage</h3>
+          <p>Explore as zonas iniciais, encontre NPCs importantes e descubra as melhores rotas de farm.</p>
+          <a href="lista.html?type=map" class="btn-outline">Ver Mapas</a>
+        </div>
+        <div class="feature-card__visual" style="background: linear-gradient(45deg, #1a1a1a, #2a2a2a);">
+          🗺️
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card about-card">
+        <h2>Sobre Grind Hero</h2>
+        <p>Esta é a enciclopédia do Grind Hero, um MMORPG brasileiro desenvolvido por Diego Vieira (Kahdymus). Aqui você encontra tudo sobre classes, monstros, sistemas, mecânicas, economia e muito mais.</p>
+        <p style="margin-top: 1rem; color: var(--color-text-muted); font-size: 0.9rem;">Versão atual do Jogo: V2026.1</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 - Wiki Grind Hero</p>
+  </footer>
+
+  <script src="js/entityLabels.js"></script>
+  <script src="js/entityStore.js"></script>
+  <script src="js/globalSearch.js"></script>
+  <script src="js/main.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const heroBtn = document.getElementById('heroSearchTrigger');
+      if(heroBtn) {
+        heroBtn.addEventListener('click', () => {
+          const searchBtn = document.getElementById('searchTrigger');
+          if(searchBtn) searchBtn.click();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
