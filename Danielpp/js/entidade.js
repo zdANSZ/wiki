@@ -9,10 +9,22 @@ function getSlug() {
 
 async function loadEntity() {
   const slug = getSlug();
-  if (!slug) { headerContainer.innerHTML = `<p>Entidade não encontrada.</p>`; return; }
+  if (!slug) { 
+    if(headerContainer) headerContainer.innerHTML = `<p>Entidade não especificada.</p>`; 
+    return; 
+  }
+
   await loadEntitiesOnce();
   const entity = EntityStore.bySlug.get(slug);
-  if (!entity) { headerContainer.innerHTML = `<p>Entidade não encontrada.</p>`; return; }
+  
+  if (!entity) { 
+    if(headerContainer) headerContainer.innerHTML = `<p>Entidade não encontrada.</p>`; 
+    return; 
+  }
+
+  // Atualizar breadcrumb
+  const breadcrumbSpan = document.getElementById('breadcrumbCurrent'); // Se existir no HTML
+  if(breadcrumbSpan) breadcrumbSpan.textContent = entity.name;
 
   renderHeader(entity);
   renderAttributes(entity);
@@ -22,23 +34,35 @@ async function loadEntity() {
 
 function renderHeader(e) {
   headerContainer.innerHTML = `
-    <div class="entity__header">
+    <div class="entity-header-content">
       ${e.image ? `<img src="${e.image}" alt="${e.name}" class="entity-image">` : ''}
-      <h1 class="entity-title"><a href="#">${e.name}</a></h1>
-      <p class="entity-shortdesc">${e.shortDesc || ''}</p>
-      <div class="entity-tags">
-        <a class="tag tag--type" href="lista.html?type=${e.type}">${EntityLabels[e.type]}</a>
-        ${e.tags?.map(tag => `<a class="tag" href="lista.html?type=${e.type}&tag=${encodeURIComponent(tag)}">${tag}</a>`).join('')}
+      <div>
+        <h1 class="entity-title">${e.name}</h1>
+        <p class="entity-shortdesc">${e.shortDesc || ''}</p>
+        <div class="entity-tags">
+          <a class="tag tag--type" href="lista.html?type=${e.type}">${window.EntityLabels[e.type] || e.type}</a>
+          ${e.tags.map(tag => `<a class="tag" href="lista.html?type=${e.type}&tag=${encodeURIComponent(tag)}">${tag}</a>`).join('')}
+        </div>
       </div>
     </div>
   `;
 }
 
 function renderAttributes(e) {
-  if (!e.attributes) { attributesContainer.innerHTML=''; return; }
+  // Se attributes estiver vazio ou for objeto vazio
+  if (!e.attributes || Object.keys(e.attributes).length === 0) { 
+    attributesContainer.innerHTML = ''; 
+    return; 
+  }
+  
   attributesContainer.innerHTML = `
     <div class="card info-grid">
-      ${Object.entries(e.attributes).map(([k,v]) => `<div><strong>${k}</strong><p class="text-muted">${v}</p></div>`).join('')}
+      ${Object.entries(e.attributes).map(([k,v]) => `
+        <div class="info-item">
+          <strong class="info-label">${k}</strong>
+          <span class="info-value">${v}</span>
+        </div>
+      `).join('')}
     </div>
   `;
 }
@@ -48,37 +72,70 @@ function renderEntityByType(e){
     case 'npc': renderAccordionNpc(e); break;
     case 'item': renderAccordionItem(e); break;
     case 'monster': renderAccordionMonster(e); break;
-    default: contentContainer.innerHTML=`<div class="card"><p>Sem informações específicas.</p></div>`;
+    case 'guide': renderAccordionGuide(e); break;
+    default: contentContainer.innerHTML = '';
   }
 }
 
+// Helpers de Renderização (Verifique se as propriedades existem)
 function renderAccordionNpc(n){
   contentContainer.innerHTML = `
-    <div class="accordion__item"><div class="accordion__title">Localização</div><div class="accordion__content"><p>${n.location||'Desconhecida'}</p></div></div>
-    <div class="accordion__item"><div class="accordion__title">Serviços</div><div class="accordion__content"><ul>${n.services?.map(s=>`<li>${s}</li>`).join('')||'<li>Nenhum</li>'}</ul></div></div>
-    <div class="accordion__item"><div class="accordion__title">Diálogo</div><div class="accordion__content"><blockquote>${n.dialogue||'—'}</blockquote></div></div>
+    ${accordionItem('Localização', n.location)}
+    ${accordionList('Serviços', n.services)}
+    ${accordionItem('Diálogo', n.dialogue, true)}
   `;
 }
 
 function renderAccordionItem(i){
   contentContainer.innerHTML = `
-    <div class="accordion__item"><div class="accordion__title">Requisitos</div><div class="accordion__content"><ul>${i.requirements?.map(r=>`<li>${r}</li>`).join('')||'<li>Nenhum</li>'}</ul></div></div>
-    <div class="accordion__item"><div class="accordion__title">Efeitos</div><div class="accordion__content"><ul>${i.effects?.map(e=>`<li>${e}</li>`).join('')||'<li>Nenhum</li>'}</ul></div></div>
+    ${accordionList('Requisitos', i.requirements)}
+    ${accordionList('Efeitos', i.effects)}
   `;
 }
 
 function renderAccordionMonster(m){
   contentContainer.innerHTML = `
-    <div class="accordion__item"><div class="accordion__title">Habitat</div><div class="accordion__content"><p>${m.habitat||'Desconhecido'}</p></div></div>
-    <div class="accordion__item"><div class="accordion__title">Drops</div><div class="accordion__content"><ul>${m.drops?.map(d=>`<li>${d}</li>`).join('')||'<li>Nenhum</li>'}</ul></div></div>
-    <div class="accordion__item"><div class="accordion__title">Fraquezas</div><div class="accordion__content"><ul>${m.weaknesses?.map(w=>`<li>${w}</li>`).join('')||'<li>Nenhuma</li>'}</ul></div></div>
+    ${accordionItem('Habitat', m.habitat)}
+    ${accordionList('Drops', m.drops)}
+    ${accordionList('Fraquezas', m.weaknesses)}
   `;
+}
+
+function renderAccordionGuide(g){
+   // Exemplo simples para guias
+   contentContainer.innerHTML = `<div class="card"><p>Ver detalhes completos no guia externo ou descrição longa.</p></div>`;
+}
+
+// Funções utilitárias para gerar HTML do Accordion
+function accordionItem(title, content, isQuote = false) {
+  if (!content) return '';
+  const body = isQuote ? `<blockquote>${content}</blockquote>` : `<p>${content}</p>`;
+  return `
+    <div class="accordion__item">
+      <div class="accordion__title">${title}</div>
+      <div class="accordion__content">${body}</div>
+    </div>`;
+}
+
+function accordionList(title, list) {
+  if (!list || list.length === 0) return '';
+  return `
+    <div class="accordion__item">
+      <div class="accordion__title">${title}</div>
+      <div class="accordion__content"><ul>${list.map(i => `<li>${i}</li>`).join('')}</ul></div>
+    </div>`;
 }
 
 function initAccordion() {
   document.querySelectorAll('.accordion__title').forEach(title => {
     title.addEventListener('click', () => {
-      title.parentElement.classList.toggle('is-open');
+      const item = title.parentElement;
+      const isOpen = item.classList.contains('is-open');
+      
+      // Fecha outros (opcional - estilo "Accordion")
+      document.querySelectorAll('.accordion__item').forEach(i => i.classList.remove('is-open'));
+
+      if (!isOpen) item.classList.add('is-open');
     });
   });
 }
