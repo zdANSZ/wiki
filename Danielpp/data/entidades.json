@@ -1,0 +1,104 @@
+{
+  "entities": [
+  {
+    "type": "class",
+    "slug": "mago",
+    "name": "Mago",
+    "shortDesc": "Classe mágica independente que não depende de ataque físico para acertar monstros [1].",
+    "image": "img/classes/mago.png",
+    "tags": "magia,distancia,independente",
+    "attributes": "Evolucao:Místico;Nivel:20",
+    "requirements": "Level:20",
+    "effects": "Dano Mágico;Lentidão [2]"
+  },
+  {
+    "type": "item",
+    "slug": "staff-cristal",
+    "name": "Staff Cristal",
+    "shortDesc": "Melhor cajado para magos iniciantes, superior ao do castelo [3, 4].",
+    "image": "img/items/staff-cristal.png",
+    "tags": "mago,arma,cristal",
+    "attributes": "Ataque:16;Defesa:12",
+    "requirements": "Level:7",
+    "effects": "Dano Mágico"
+  },
+  {
+    "type": "monster",
+    "slug": "diabrete",
+    "name": "Diabrete",
+    "shortDesc": "Monstro inicial que concede mais experiência que o rato [5].",
+    "image": "img/monsters/diabrete.png",
+    "tags": "inicial,farm,experiencia",
+    "attributes": "XP:11;XP:12",
+    "habitat": "Masmorra do Diabrete;Área após a ponte de Tibage [6, 7]",
+    "drops": "Sopa [8]"
+  },
+  {
+    "type": "map",
+    "slug": "tibage",
+    "name": "Tibage",
+    "shortDesc": "Primeira cidade inicial e centro para novos jogadores [9, 10].",
+    "image": "img/maps/tibage.png",
+    "tags": "cidade,vilarejo,iniciante",
+    "attributes": "Tipo:Zona Neutra"
+  },
+  {
+    "type": "monster",
+    "slug": "zumbi-campeao",
+    "name": "Zumbi Campeão",
+    "shortDesc": "Versão fortalecida de zumbi encontrada em cavernas [11].",
+    "image": "img/monsters/zumbi-campeao.png",
+    "tags": "morto-vivo,elite,caverna",
+    "habitat": "Caverna de Zumbis ao norte de Tibage [11, 12]"
+  },
+  {
+    "type": "system",
+    "slug": "market",
+    "name": "Market (Trading Post)",
+    "shortDesc": "Sistema organizado para compra e venda de itens entre jogadores [13, 14].",
+    "image": "img/systems/market.png",
+    "tags": "economia,troca,comercio",
+    "attributes": "Taxa:Variavel"
+  },
+  {
+    "type": "npc",
+    "slug": "vendenna",
+    "name": "Vendenna",
+    "shortDesc": "NPC relacionada ao evento de Natal [15, 16].",
+    "image": "img/npcs/vendenna.png",
+    "tags": "evento,natal,limitado",
+    "location": "Tibage",
+    "services": "Troca de Tokens",
+    "dialogue": "Evento encerrado"
+  },
+  {
+    "type": "monster",
+    "slug": "escarlate-sombrio",
+    "name": "Escarlate Sombrio",
+    "shortDesc": "Monstro forte encontrado na masmorra de Rightwood [17].",
+    "image": "img/monsters/escarlate-sombrio.png",
+    "tags": "cogumelo,forte,farm",
+    "habitat": "Masmorra de Rightwood [17, 18]",
+    "drops": "Calça;Capacete [19]"
+  },
+  {
+    "type": "item",
+    "slug": "chave-do-castelo",
+    "name": "Chave do Castelo",
+    "shortDesc": "Item necessário para acessar a área do castelo e seus baús [20, 21].",
+    "image": "img/items/chave-do-castelo.png",
+    "tags": "missao,acesso,raro",
+    "requirements": "Level:7",
+    "effects": "Acesso ao Castelo"
+  },
+  {
+    "type": "guide",
+    "slug": "guia-de-mago-iniciante",
+    "name": "Guia de Mago Iniciante",
+    "shortDesc": "Estratégias para evoluir um mago rapidamente do nível 1 ao 7 [1, 3].",
+    "image": "img/guides/mago-guia.png",
+    "tags": "tutorial,mago,grind",
+    "attributes": "Autor:BonfireOFC;Dificuldade:Baixa"
+  }
+]
+}
