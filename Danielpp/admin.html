@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerador de JSON - Grind Hero</title>
+    <style>
+        body { font-family: sans-serif; background: #121212; color: #fff; padding: 20px; }
+        h1 { color: #fff; margin-bottom: 10px; }
+        .container { display: flex; gap: 20px; height: 80vh; }
+        .box { flex: 1; display: flex; flex-direction: column; }
+        textarea { flex: 1; background: #1e1e1e; color: #ccc; border: 1px solid #333; padding: 10px; font-family: monospace; font-size: 14px; }
+        button { padding: 15px; background: #22c55e; color: #fff; border: none; cursor: pointer; font-weight: bold; margin-bottom: 10px; border-radius: 4px; }
+        button:hover { background: #16a34a; }
+        .help { background: #1e1e1e; padding: 15px; margin-bottom: 20px; border-radius: 4px; border: 1px solid #333; font-size: 0.9rem; line-height: 1.5; }
+        code { background: #333; padding: 2px 5px; border-radius: 3px; color: #4ade80; }
+    </style>
+</head>
+<body>
+
+    <h1>Ferramenta de Importação (Excel para JSON)</h1>
+    
+    <div class="help">
+        <strong>Colunas Obrigatórias na Planilha (1ª Linha):</strong><br>
+        <code>type</code>, <code>slug</code>, <code>name</code>, <code>shortDesc</code>, <code>image</code>, <code>tags</code>, <code>attributes</code><br><br>
+        <strong>Colunas Opcionais (Novas):</strong><br>
+        <code>description</code> (Texto longo), <code>progression</code> (Evolução), <code>skills</code> (Formato: <em>Skill 1: Dano alto; Skill 2: Cura</em>)<br>
+        <code>location</code>, <code>services</code>, <code>dialogue</code>, <code>requirements</code>, <code>effects</code>, <code>habitat</code>, <code>drops</code>, <code>weaknesses</code>
+    </div>
+
+    <div class="container">
+        <div class="box">
+            <button onclick="convert()">1. CONVERTER TABELA</button>
+            <textarea id="input" placeholder="Cole aqui as células do Excel (com cabeçalho)..."></textarea>
+        </div>
+        <div class="box">
+            <button onclick="copyOutput()">2. COPIAR JSON</button>
+            <textarea id="output" readonly placeholder="O resultado aparecerá aqui..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        function convert() {
+            const raw = document.getElementById('input').value.trim();
+            if (!raw) return alert("Cole os dados da planilha primeiro!");
+
+            const rows = raw.split('\n');
+            const headers = rows[0].split('\t').map(h => h.trim());
+            
+            const entities = [];
+
+            for (let i = 1; i < rows.length; i++) {
+                const cols = rows[i].split('\t');
+                if (cols.length < 2) continue;
+
+                let obj = {};
+                
+                headers.forEach((header, index) => {
+                    let value = cols[index] ? cols[index].trim() : "";
+                    
+                    // Remove aspas extras que o Excel às vezes coloca
+                    if (value.startsWith('"') && value.endsWith('"')) {
+                        value = value.substring(1, value.length - 1).replace(/""/g, '"');
+                    }
+
+                    if (!value) return; // Ignora campos vazios para economizar espaço
+                    obj[header] = value;
+                });
+
+                if (obj.slug && obj.name) {
+                    entities.push(obj);
+                }
+            }
+
+            const finalJson = { "entities": entities };
+            document.getElementById('output').value = JSON.stringify(finalJson, null, 2);
+        }
+
+        function copyOutput() {
+            const copyText = document.getElementById("output");
+            copyText.select();
+            document.execCommand("copy");
+            alert("JSON copiado! Cole no arquivo data/entidades.json");
+        }
+    </script>
+</body>
+</html>

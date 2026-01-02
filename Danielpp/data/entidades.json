@@ -5,12 +5,44 @@
     "slug": "mago",
     "name": "Mago",
     "shortDesc": "Classe mágica independente que não depende de ataque físico para acertar monstros [1].",
-    "image": "img/classes/mago.png",
+    "image": "",
     "tags": "magia,distancia,independente",
     "attributes": "Evolucao:Místico;Nivel:20",
     "requirements": "Level:20",
     "effects": "Dano Mágico;Lentidão [2]"
   },
+  {
+  "entities": [
+    {
+      "type": "class",
+      "slug": "class-mage",
+      "name": "Mago",
+      "shortDesc": "O mago é especializado em combate mágico a distância mid/closed, oferecendo alto dano explosivo para os combates. Ele utiliza cajados como arma principal e grimórios como secundária.",
+      "image": "https://www.grindherowiki.com.br/img/classes/mago.png"
+    },
+    {
+      "type": "class",
+      "slug": "class-warrior",
+      "name": "Guerreiro",
+      "shortDesc": "O guerreiro é especializado em combate fisico a curta distância, oferecendo um dano e defesa equilibrada para os combates. Ele utiliza espadas como arma principal e escudo como secundária",
+      "image": "https://www.grindherowiki.com.br/img/classes/guerreiro.png"
+    },
+    {
+      "type": "class",
+      "slug": "class-cleric",
+      "name": "Clérigo",
+      "shortDesc": "O explorador é especializado em combate a distância a longa distância, oferecendo um alto DPS para os combates. Ele utiliza arcos como arma principal e flechas como secundária",
+      "image": "https://www.grindherowiki.com.br/img/classes/clerigo.png"
+    },
+    {
+      "type": "class",
+      "slug": "class-explorer",
+      "name": "Explorador",
+      "shortDesc": "O explorador é especializado em combate a distância a longa distância, oferecendo um alto DPS para os combates. Ele utiliza arcos como arma principal e flechas como secundária",
+      "image": "https://www.grindherowiki.com.br/img/classes/explorador.png"
+    }
+  ]
+},
   {
     "type": "item",
     "slug": "staff-cristal",
@@ -99,6 +131,33 @@
     "image": "img/guides/mago-guia.png",
     "tags": "tutorial,mago,grind",
     "attributes": "Autor:BonfireOFC;Dificuldade:Baixa"
-  }
+  },
+  {
+  "entities": [
+    {
+      "type": "monster",
+      "slug": "goblin-chefe",
+      "name": "Goblin Chefe",
+      "drops": "cajado-majestoso, moeda-ouro", 
+      "shortDesc": "Líder dos goblins.",
+      "attributes": "HP:500; ATK:20"
+    },
+    {
+      "type": "item",
+      "slug": "cajado-majestoso", 
+      "name": "Cajado Majestoso",
+      "tags": "Lendário, Mágico",
+      "attributes": "Ataque:13; Defesa:2; Valor:20000; Elemento:Fogo",
+      "shortDesc": "Um cajado antigo com poder de fogo."
+    },
+    {
+      "type": "item",
+      "slug": "moeda-ouro",
+      "name": "Moeda de Ouro",
+      "attributes": "Valor:1",
+      "shortDesc": "Moeda padrão de comércio."
+    }
+  ]
+}
 ]
 }
