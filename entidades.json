@@ -1,0 +1,288 @@
+{
+  "entities": [
+    {
+      "type": "class",
+      "slug": "class-mage",
+      "name": "Mago",
+      "shortDesc": "O mago é especializado em combate mágico a distância mid/closed, oferecendo alto dano explosivo para os combates. Ele utiliza cajados como arma principal e grimórios como secundária.",
+      "image": "https://www.grindherowiki.com.br/img/classes/mago.png"
+    },
+    {
+      "type": "class",
+      "slug": "class-warrior",
+      "name": "Guerreiro",
+      "shortDesc": "O guerreiro é especializado em combate fisico a curta distância, oferecendo um dano e defesa equilibrada para os combates. Ele utiliza espadas como arma principal e escudo como secundária",
+      "image": "https://www.grindherowiki.com.br/img/classes/guerreiro.png"
+    },
+    {
+      "type": "class",
+      "slug": "class-cleric",
+      "name": "Clérigo",
+      "shortDesc": "O explorador é especializado em combate a distância a longa distância, oferecendo um alto DPS para os combates. Ele utiliza arcos como arma principal e flechas como secundária",
+      "image": "https://www.grindherowiki.com.br/img/classes/clerigo.png"
+    },
+    {
+      "type": "class",
+      "slug": "class-explorer",
+      "name": "Explorador",
+      "shortDesc": "O explorador é especializado em combate a distância a longa distância, oferecendo um alto DPS para os combates. Ele utiliza arcos como arma principal e flechas como secundária",
+      "image": "https://www.grindherowiki.com.br/img/classes/explorador.png"
+    },
+  {
+    "type": "item",
+    "slug": "staff-cristal",
+    "name": "Staff Cristal",
+    "shortDesc": "Melhor cajado para magos iniciantes, superior ao do castelo [3, 4].",
+    "image": "img/items/staff-cristal.png",
+    "tags": "mago,arma,cristal",
+    "attributes": "Ataque:16;Defesa:12",
+    "requirements": "Level:7",
+    "effects": "Dano Mágico"
+  },
+  {
+    "type": "monster",
+    "slug": "diabrete",
+    "name": "Diabrete",
+    "shortDesc": "Monstro inicial que concede mais experiência que o rato [5].",
+    "image": "img/monsters/diabrete.png",
+    "tags": "inicial,farm,experiencia",
+    "attributes": "XP:11;XP:12",
+    "habitat": "Masmorra do Diabrete;Área após a ponte de Tibage [6, 7]",
+    "drops": "Sopa [8]"
+  },
+  {
+    "type": "map",
+    "slug": "tibage",
+    "name": "Tibage",
+    "shortDesc": "Primeira cidade inicial e centro para novos jogadores [9, 10].",
+    "image": "img/maps/tibage.png",
+    "tags": "cidade,vilarejo,iniciante",
+    "attributes": "Tipo:Zona Neutra"
+  },
+  {
+    "type": "monster",
+    "slug": "zumbi-campeao",
+    "name": "Zumbi Campeão",
+    "shortDesc": "Versão fortalecida de zumbi encontrada em cavernas [11].",
+    "image": "img/monsters/zumbi-campeao.png",
+    "tags": "morto-vivo,elite,caverna",
+    "habitat": "Caverna de Zumbis ao norte de Tibage [11, 12]"
+  },
+  {
+    "type": "system",
+    "slug": "market",
+    "name": "Market (Trading Post)",
+    "shortDesc": "Sistema organizado para compra e venda de itens entre jogadores [13, 14].",
+    "image": "img/systems/market.png",
+    "tags": "economia,troca,comercio",
+    "attributes": "Taxa:Variavel"
+  },
+  {
+    "type": "npc",
+    "slug": "vendenna",
+    "name": "Vendenna",
+    "shortDesc": "NPC relacionada ao evento de Natal [15, 16].",
+    "image": "img/npcs/vendenna.png",
+    "tags": "evento,natal,limitado",
+    "location": "Tibage",
+    "services": "Troca de Tokens",
+    "dialogue": "Evento encerrado"
+  },
+  {
+    "type": "monster",
+    "slug": "escarlate-sombrio",
+    "name": "Escarlate Sombrio",
+    "shortDesc": "Monstro forte encontrado na masmorra de Rightwood [17].",
+    "image": "img/monsters/escarlate-sombrio.png",
+    "tags": "cogumelo,forte,farm",
+    "habitat": "Masmorra de Rightwood [17, 18]",
+    "drops": "Calça;Capacete [19]"
+  },
+  {
+    "type": "item",
+    "slug": "chave-do-castelo",
+    "name": "Chave do Castelo",
+    "shortDesc": "Item necessário para acessar a área do castelo e seus baús [20, 21].",
+    "image": "img/items/chave-do-castelo.png",
+    "tags": "missao,acesso,raro",
+    "requirements": "Level:7",
+    "effects": "Acesso ao Castelo"
+  },
+  {
+    "type": "guide",
+    "slug": "guia-de-mago-iniciante",
+    "name": "Guia de Mago Iniciante",
+    "shortDesc": "Estratégias para evoluir um mago rapidamente do nível 1 ao 7 [1, 3].",
+    "image": "img/guides/mago-guia.png",
+    "tags": "tutorial,mago,grind",
+    "attributes": "Autor:BonfireOFC;Dificuldade:Baixa"
+  },
+    {
+      "type": "monster",
+      "slug": "goblin-chefe",
+      "name": "Goblin Chefe",
+      "drops": "cajado-majestoso, moeda-ouro", 
+      "shortDesc": "Líder dos goblins.",
+      "attributes": "HP:500; ATK:20"
+    },
+    {
+      "type": "item",
+      "slug": "cajado-majestoso", 
+      "name": "Cajado Majestoso",
+      "tags": "Lendário, Mágico",
+      "attributes": "Ataque:13; Defesa:2; Valor:20000; Elemento:Fogo",
+      "shortDesc": "Um cajado antigo com poder de fogo."
+    },
+    {
+      "type": "item",
+      "slug": "moeda-ouro",
+      "name": "Moeda de Ouro",
+      "attributes": "Valor:1",
+      "shortDesc": "Moeda padrão de comércio."
+    },
+    {
+      "type": "monster",
+      "slug": "rata-mutante",
+      "name": "Rata Mutante",
+      "shortDesc": "Roedor gigante modificado geneticamente.",
+      "image": "img/monsters/rata-mutante.png",
+      "tags": "animal,mutante,inicio",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Esgotos, Subsolo",
+      "drops": "pele-de-rato, queijo-velho",
+      "weaknesses": "Fogo"
+    },
+    {
+      "type": "monster",
+      "slug": "esqueleto-guerreiro",
+      "name": "Esqueleto Guerreiro",
+      "shortDesc": "Restos mortais animados prontos para o combate.",
+      "image": "img/monsters/esqueleto-guerreiro.png",
+      "tags": "morto-vivo,esqueleto,fisico",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Cemitério, Masmorras",
+      "drops": "osso, espada-quebrada",
+      "weaknesses": "Sagrado, Esmagamento"
+    },
+    {
+      "type": "monster",
+      "slug": "goblin-guerreiro",
+      "name": "Goblin Guerreiro",
+      "shortDesc": "Pequena criatura verde, ágil e perigosa em grupo.",
+      "image": "img/monsters/goblin-guerreiro.png",
+      "tags": "goblin,humanoide,agil",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Florestas, Acampamentos",
+      "drops": "adaga-ferruge, moeda-de-cobre",
+      "weaknesses": "Fogo"
+    },
+    {
+      "type": "monster",
+      "slug": "orc-cacador",
+      "name": "Orc Caçador",
+      "shortDesc": "Orc especializado em rastreamento e ataques à distância.",
+      "image": "img/monsters/orc-cacador.png",
+      "tags": "orc,humanoide,distancia",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Montanhas, Florestas Densas",
+      "drops": "arco-orc, couro-grosso",
+      "weaknesses": "Gelo"
+    },
+    {
+      "type": "monster",
+      "slug": "goblin-general",
+      "name": "Goblin General",
+      "shortDesc": "Líder tático dos goblins, mais resistente e forte.",
+      "image": "img/monsters/goblin-general.png",
+      "tags": "goblin,chefe,lider",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Forte Goblin",
+      "drops": "medalha-de-guerra, espada-curta",
+      "weaknesses": "Fogo"
+    },
+    {
+      "type": "monster",
+      "slug": "zumbi-soldado",
+      "name": "Zumbi Soldado",
+      "shortDesc": "Soldado antigo reanimado, lento mas resistente.",
+      "image": "img/monsters/zumbi-soldado.png",
+      "tags": "morto-vivo,lento,resistente",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Ruínas, Campos de Batalha",
+      "drops": "carne-podre, pedaco-de-armadura",
+      "weaknesses": "Fogo, Sagrado"
+    },
+    {
+      "type": "monster",
+      "slug": "vampiro",
+      "name": "Vampiro",
+      "shortDesc": "Criatura da noite sedenta por sangue.",
+      "image": "img/monsters/vampiro.png",
+      "tags": "morto-vivo,vampiro,trevas",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Mansão Assombrada, Noite",
+      "drops": "presa-de-vampiro, capa-preta",
+      "weaknesses": "Sagrado, Estaca"
+    },
+    {
+      "type": "monster",
+      "slug": "vampiro-lorde",
+      "name": "Vampiro Lorde",
+      "shortDesc": "Um nobre entre os vampiros, com poderes mágicos.",
+      "image": "img/monsters/vampiro-lorde.png",
+      "tags": "morto-vivo,chefe,magico",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Castelo do Vampiro",
+      "drops": "sangue-real, anel-das-trevas",
+      "weaknesses": "Sagrado"
+    },
+    {
+      "type": "monster",
+      "slug": "fantasma-rainha",
+      "name": "Fantasma Rainha",
+      "shortDesc": "Espírito vingativo de uma antiga realeza.",
+      "image": "img/monsters/fantasma-rainha.png",
+      "tags": "espirito,etereo,chefe",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Torre Fantasma",
+      "drops": "ectoplasma, coroa-eteria",
+      "weaknesses": "Magia, Espiritual"
+    },
+    {
+      "type": "monster",
+      "slug": "lizardman-soldado",
+      "name": "Lizardman Soldado",
+      "shortDesc": "Guerreiro reptiliano com escamas duras.",
+      "image": "img/monsters/lizardman-soldado.png",
+      "tags": "reptil,humanoide,pantano",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Pântano, Lagos",
+      "drops": "escama-verde, lanca-rustica",
+      "weaknesses": "Gelo"
+    },
+    {
+      "type": "monster",
+      "slug": "lizardman-general",
+      "name": "Lizardman General",
+      "shortDesc": "Comandante das tribos do pântano.",
+      "image": "img/monsters/lizardman-general.png",
+      "tags": "reptil,chefe,forte",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Templo do Pântano",
+      "drops": "tridente-de-escamas, escudo-reptil",
+      "weaknesses": "Gelo"
+    },
+    {
+      "type": "monster",
+      "slug": "golem",
+      "name": "Golem",
+      "shortDesc": "Constructo mágico feito de pedra sólida.",
+      "image": "img/monsters/golem.png",
+      "tags": "constructo,pedra,tanque",
+      "attributes": "HP:?; Ataque:?; Defesa:?; XP:?",
+      "habitat": "Montanhas, Minas",
+      "drops": "minerio-de-ferro, coracao-de-pedra",
+      "weaknesses": "Esmagamento, Agua"
+    }
+  ]
+}
